@@ -213,6 +213,17 @@ the selected demo using the settings from `config.yml`.
 | 26 | store_queue_analysis | Advanced         | Queue wait-time analyzer |
 | 27 | multi_channel_4      | Advanced         | 4-channel concurrent grid inference |
 | 28 | hand_landmark        | Advanced         | 21-point hand keypoint detection |
+| 29 | retail_analytics     | Sixfab Apps      | Person counting, entry/exit line, live + total heatmap |
+| 30 | pilates_coach        | Sixfab Apps      | Multi-person rep counter (elbow-angle press) |
+| 31 | fall_detection       | Sixfab Apps      | Multi-person fall alert (torso angle + drop speed) |
+| 32 | fruit_ninja          | Sixfab Apps      | Fruit Ninja-style pose game, multiplayer |
+
+Entries 29-32 are full standalone apps (own install step, own README under
+`retail-analytics/` and `pose-estimation/`) rather than the shared demo
+runner's `--model`/`--conf`/`--iou` pattern — the launcher runs their own
+CLI directly. Run `./install.sh` inside `python_examples/retail-analytics`
+and `python_examples/pose-estimation` once first to download their models;
+until then the launcher's status dot for these four shows red.
 
 
 ## Configuration

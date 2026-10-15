@@ -1,0 +1,7 @@
+name: pose-estimation
+title: Pose Estimation Apps
+tagline: Pilates rep counter, fall detection, and a pose-controlled game
+runtime: standalone
+extra_hardware: false
+model_license: AGPL-3.0
+release_prefix: pose-estimation

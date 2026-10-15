@@ -1,0 +1,3 @@
+# TAG: retail-analytics-v1.0.0
+# <asset>  <path in repo>  <sha256>  [optional]
+yolox-s_640x640_ppu.dxnn  model/yolox-s_640x640_ppu.dxnn  ea2f3d402c510fd898095522a1e51160883bdb46e78ae55fce0b7b9ea8ac712d

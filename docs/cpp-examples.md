@@ -277,4 +277,4 @@ See any existing demo file for a complete working example.
 
 ---
 
-*For issues or contributions, visit [sixfab/deepx-rpi5-examples](https://github.com/sixfab/deepx-rpi5-examples).*
+*For issues or contributions, visit [sixfab/sixfab-dx-examples](https://github.com/sixfab/sixfab-dx-examples).*

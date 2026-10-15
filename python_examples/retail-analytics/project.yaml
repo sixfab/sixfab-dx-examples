@@ -1,0 +1,7 @@
+name: retail-analytics
+title: Retail Analytics
+tagline: People counting and a heatmap on the Pi's own screen
+runtime: standalone
+extra_hardware: false
+model_license: Apache-2.0
+release_prefix: retail-analytics

@@ -100,7 +100,7 @@ for asset in images models videos; do
         continue
     fi
 
-    url="https://github.com/sixfab/deepx-rpi5-examples/releases/download/v0.3/${asset}.tar.gz"
+    url="https://github.com/sixfab/sixfab-dx-examples/releases/download/v0.3/${asset}.tar.gz"
     print_info "Downloading ${asset}.tar.gz..."
     curl -L --retry 3 --retry-delay 5 --max-time 300 \
         --progress-bar \
@@ -140,8 +140,17 @@ cd "$CURRENT_DIR"
 pip install -r python_examples/requirements.txt
 print_success "Python requirements installed"
 
-# Step 3: Build C++ examples
-print_info "Step 3: Building C++ examples..."
+# Step 3: Install the Sixfab apps (retail analytics, pose estimation) and download their models
+print_info "Step 3: Installing Sixfab apps (retail-analytics, pose-estimation)..."
+cd "$CURRENT_DIR/python_examples/retail-analytics"
+bash install.sh --yes || print_warning "retail-analytics install failed - run it by hand later: cd python_examples/retail-analytics && ./install.sh"
+cd "$CURRENT_DIR/python_examples/pose-estimation"
+bash install.sh --yes || print_warning "pose-estimation install failed - run it by hand later: cd python_examples/pose-estimation && ./install.sh"
+cd "$CURRENT_DIR"
+print_success "Sixfab apps installed"
+
+# Step 4: Build C++ examples
+print_info "Step 4: Building C++ examples..."
 cd "$CURRENT_DIR/cpp_examples"
 bash setup.sh
 cd "$CURRENT_DIR"
@@ -155,7 +164,7 @@ echo ""
 print_info "To activate the environment in future sessions, run:"
 echo "  source $VENV_PATH/bin/activate"
 echo ""
-print_info "To start the Python examples:"
+print_info "To start the Python examples (includes retail-analytics, pose-estimation):"
 echo "  cd $CURRENT_DIR && bash python_examples/start.sh"
 echo ""
 print_info "To start the C++ examples:"

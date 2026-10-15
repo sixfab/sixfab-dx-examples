@@ -267,3 +267,15 @@ demos:
       - {source: "video", path: "../resources/videos/360p/8_360p.avi"}
       - {source: "video", path: "../resources/videos/360p/10_360p.avi"}
       - {source: "video", path: "../resources/videos/360p/11_360p.avi"}
+
+  # These four run their own app (not the shared demo runner) - see
+  # POSITIONAL_APPS in launcher.py. model_path here is only used for the
+  # menu's status dot and size display.
+  retail_analytics:
+    model_path: "retail-analytics/model/yolox-s_640x640_ppu.dxnn"
+  pilates_coach:
+    model_path: "pose-estimation/model/yolov8n-pose.dxnn"
+  fall_detection:
+    model_path: "pose-estimation/model/yolov8n-pose.dxnn"
+  fruit_ninja:
+    model_path: "pose-estimation/model/yolov8n-pose.dxnn"
