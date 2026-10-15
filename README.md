@@ -14,9 +14,9 @@ Compact, practical AI inference examples for the Raspberry Pi 5 using the DEEPX 
 ## Repository Layout
 
 ```
-deepx-rpi5-examples/
+sixfab-dx-examples/
 ├── auto-install.sh           # One-shot setup: resources, Python deps, C++ build
-├── python_examples/          # Full Python demo collection (28 demos, TUI launcher)
+├── python_examples/          # Full Python demo collection (28 demos, TUI launcher) + 2 standalone apps (retail-analytics, pose-estimation)
 ├── cpp_examples/             # Full C++ demo collection (26 demos, TUI launcher)
 ├── community_projects/       # Community contributions and templates
 └── docs/                     # Guides for installation and usage
@@ -151,6 +151,14 @@ See [docs/cpp-examples.md](docs/cpp-examples.md) for the demo list, build instru
 
 ---
 
+## Projects
+
+Beyond the demo collections, `python_examples/` has two standalone apps with interactive installers: people counting with a heatmap (`retail-analytics`), and pose-based fitness, fall detection and a game (`pose-estimation`). Neither needs Frigate. See [docs/projects.md](docs/projects.md).
+
+The five camera-based apps that use Frigate (boss-detector, porch-pirate, bird-species-id, squirrel-sprinkler, smart-doorbell) live in the sibling [sixfab-dx-frigate](https://github.com/sixfab/sixfab-dx-frigate) repo.
+
+---
+
 ## Input Sources
 
 All demos accept the same set of input sources:
@@ -193,3 +201,5 @@ Community improvements are welcome. If you have a demo, model optimization tip, 
 ## License
 
 This project is distributed under the **MIT License**.
+
+The two standalone examples under `python_examples/` (retail-analytics, pose-estimation) ship DEEPX-compiled `.dxnn` models — see [LICENSE-NOTES.md](LICENSE-NOTES.md) for their model/dataset licenses and [DEEPX-SDK-LICENSE.txt](DEEPX-SDK-LICENSE.txt) for DEEPX's own compiler license.

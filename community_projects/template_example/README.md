@@ -41,7 +41,7 @@ This template illustrates the requisite structure and components for a DEEPX com
 
 1. **Clone and Navigate**
    ```bash
-   cd deepx-rpi5-examples/community_projects/template_example
+   cd sixfab-dx-examples/community_projects/template_example
    ```
 
 2. **Install Dependencies**
@@ -272,6 +272,6 @@ echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governo
 
 ## Support
 
-- **Issue Tracking**: Report defects via [GitHub Issues](https://github.com/sixfab/deepx-rpi5-examples/issues)
-- **Discussions**: Engage in [GitHub Discussions](https://github.com/sixfab/deepx-rpi5-examples/discussions)
+- **Issue Tracking**: Report defects via [GitHub Issues](https://github.com/sixfab/sixfab-dx-examples/issues)
+- **Discussions**: Engage in [GitHub Discussions](https://github.com/sixfab/sixfab-dx-examples/discussions)
 - **Documentation**: Consult the [official documentation](../../docs/)
