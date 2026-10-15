@@ -87,6 +87,10 @@ DEMOS: List[Tuple[str, str, str, str, str]] = [
     ("ADVANCED",         "store_queue_analysis", "store_queue_analysis", "queue",    "magenta"),
     ("ADVANCED",         "multi_channel_4",      "multi_channel_4",      "4ch",      "blue"),
     ("ADVANCED",         "hand_landmark",        "hand_landmark",        "landmark", "green"),
+    ("SIXFAB APPS",      "retail_analytics",     "retail_analytics",     "counting", "yellow"),
+    ("SIXFAB APPS",      "pilates_coach",        "pilates_coach",        "pose",     "cyan"),
+    ("SIXFAB APPS",      "fall_detection",       "fall_detection",       "alert",    "red"),
+    ("SIXFAB APPS",      "fruit_ninja",          "fruit_ninja",          "game",     "magenta"),
 ]
 
 # Advanced demos rely on structured fields (polygons, lines, channel
@@ -108,6 +112,16 @@ SCRIPT_OVERRIDES: Dict[str, Tuple[str, str]] = {
     "multi_channel_4": ("advanced/multi_channel_demo.py", "multi_channel_4"),
 }
 
+# Full standalone apps (own CLI: a single positional source arg, no
+# --model/--conf/--iou, model path hardcoded relative to the script itself).
+# Maps config_key -> script_path_relative_to_DEMOS_ROOT.
+POSITIONAL_APPS: Dict[str, str] = {
+    "retail_analytics": "retail-analytics/watch_retail_local.py",
+    "pilates_coach": "pose-estimation/fitness_coach.py",
+    "fall_detection": "pose-estimation/fall_detection.py",
+    "fruit_ninja": "pose-estimation/fruit_ninja_pose.py",
+}
+
 console = Console()
 
 
@@ -124,6 +138,11 @@ def _human_size(path: str) -> str:
 
 def _demo_path(config_key: str) -> str:
     """Locate the *_demo.py file for a given config key."""
+    positional = POSITIONAL_APPS.get(config_key)
+    if positional is not None:
+        candidate = os.path.join(DEMOS_ROOT, positional)
+        if os.path.isfile(candidate):
+            return candidate
     override = SCRIPT_OVERRIDES.get(config_key)
     if override is not None:
         candidate = os.path.join(DEMOS_ROOT, override[0])
@@ -290,12 +309,26 @@ def launch_demo(index: int, status_cache: Dict[str, bool]) -> None:
         wait_any_key()
         return
 
-    cmd = _build_cmd(demo_path, cfg)
-    # When this entry maps to a shared script, the script needs --demo-key
-    # to know which config block to load.
-    override = SCRIPT_OVERRIDES.get(key)
-    if override is not None:
-        cmd += ["--demo-key", override[1]]
+    if key in POSITIONAL_APPS:
+        # Own CLI: a single positional source arg (camera index or video
+        # path), no --model/--conf/--iou. Mirrors _build_cmd()'s source
+        # resolution so the on-screen "Source: ..." label matches what
+        # actually launches, instead of always defaulting to camera 0.
+        src = getattr(cfg, "input_source", "webcam") or "webcam"
+        if src == "video" and getattr(cfg, "video_path", None):
+            source_arg = _resolve_cfg_path(cfg.video_path)
+        elif src == "image" and getattr(cfg, "image_path", None):
+            source_arg = _resolve_cfg_path(cfg.image_path)
+        else:
+            source_arg = str(getattr(cfg, "webcam_index", 0))
+        cmd = [sys.executable, demo_path, source_arg]
+    else:
+        cmd = _build_cmd(demo_path, cfg)
+        # When this entry maps to a shared script, the script needs --demo-key
+        # to know which config block to load.
+        override = SCRIPT_OVERRIDES.get(key)
+        if override is not None:
+            cmd += ["--demo-key", override[1]]
     console.print()
     try:
         subprocess.run(cmd, cwd=DEMOS_ROOT)

@@ -183,8 +183,8 @@ To propose a new project:
 
 ```bash
 # Clone the repository
-git clone https://github.com/sixfab/deepx-rpi5-examples.git
-cd deepx-rpi5-examples
+git clone https://github.com/sixfab/sixfab-dx-examples.git
+cd sixfab-dx-examples
 
 # Install dependencies
 ./auto-install.sh
@@ -196,8 +196,8 @@ cd deepx-rpi5-examples
 ```bash
 # Fork the repository on GitHub
 # Clone your fork
-git clone https://github.com/YOUR_USERNAME/deepx-rpi5-examples.git
-cd deepx-rpi5-examples
+git clone https://github.com/YOUR_USERNAME/sixfab-dx-examples.git
+cd sixfab-dx-examples
 
 # Create a new branch
 git checkout -b feature/your-project-name
@@ -293,8 +293,8 @@ git push origin feature/your-project-name
 - **Discussions**: Share ideas and get feedback.
 
 ### Project Coordinators
-- **Community Manager**: [GitHub Issues](https://github.com/sixfab/deepx-rpi5-examples/issues)
-- **Technical Lead**: [GitHub Discussions](https://github.com/sixfab/deepx-rpi5-examples/discussions)
+- **Community Manager**: [GitHub Issues](https://github.com/sixfab/sixfab-dx-examples/issues)
+- **Technical Lead**: [GitHub Discussions](https://github.com/sixfab/sixfab-dx-examples/discussions)
 
 ### Communication Channels
 - **GitHub Issues**: Bug reports, feature requests.

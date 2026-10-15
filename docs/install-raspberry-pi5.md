@@ -145,8 +145,8 @@ source deepx/bin/activate
 Once `sixfab-dx` is installed and `dxrt-cli -s` confirms the NPU is working, run the setup script from the repository root:
 
 ```bash
-git clone https://github.com/sixfab/deepx-rpi5-examples.git
-cd deepx-rpi5-examples
+git clone https://github.com/sixfab/sixfab-dx-examples.git
+cd sixfab-dx-examples
 ./auto-install.sh
 ```
 
@@ -247,4 +247,4 @@ After successful installation:
 
 ---
 
-*If you encounter issues or have suggestions, please open an issue on [GitHub](https://github.com/sixfab/deepx-rpi5-examples).*
+*If you encounter issues or have suggestions, please open an issue on [GitHub](https://github.com/sixfab/sixfab-dx-examples).*
