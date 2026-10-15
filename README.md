@@ -32,6 +32,14 @@ Install the DEEPX runtime first via the Sixfab APT repository:
 
 ### Install the apt-repo-sixfab package
 
+If your Raspberry Pi OS install already includes the Raspberry Pi repositories, `apt-repo-sixfab` can be installed directly:
+
+```bash
+sudo apt update && sudo apt install -y apt-repo-sixfab
+```
+
+If `apt` can't find the package (`Unable to locate package apt-repo-sixfab`), download and install the `.deb` directly instead:
+
 ```bash
 wget https://github.com/sixfab/sixfab_dx/releases/download/v0.1/apt-repo-sixfab.deb
 sudo dpkg -i apt-repo-sixfab.deb
