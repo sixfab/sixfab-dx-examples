@@ -1,0 +1,3 @@
+# TAG: pose-estimation-v1.0.0
+# <asset>  <path in repo>  <sha256>  [optional]
+yolov8n-pose.dxnn  model/yolov8n-pose.dxnn  a5b26c6c20fbbcb3825040b679ee4d5e154c92d087de0c14e6ce479af292814d
