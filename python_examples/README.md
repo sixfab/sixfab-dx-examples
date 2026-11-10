@@ -14,43 +14,32 @@ inference patterns.
 
 ## Quick Start
 
-### Option A — One command (easiest)
-
-Open a terminal on your Raspberry Pi and paste this single line:
+Install the `sixfab-dx` package first (see [Installing the DeepX Runtime](#installing-the-deepx-runtime) below), then run the repository setup once:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/sixfab/rpi5-python-examples/main/install.sh | bash
+git clone https://github.com/sixfab/sixfab-dx-examples.git
+cd sixfab-dx-examples
+./auto-install.sh
 ```
 
-That is it. The command clones the repository, installs the DeepX SDK,
-sets up the Python environment, downloads the models and videos, and
-opens the demo launcher — all in one go. No other steps needed.
+`auto-install.sh` downloads the models, videos and sample images into `resources/`, installs the Python dependencies into `/opt/sixfab-dx/venv`, installs the retail-analytics and pose-estimation apps, and builds the C++ examples.
 
-### Option B — Clone and run
-
-If you already have the repository or prefer to clone manually:
+Then open the demo launcher:
 
 ```bash
-git clone https://github.com/sixfab/rpi5-python-examples.git
-cd rpi5-python-examples
-chmod +x start.sh
-./start.sh
+bash python_examples/start.sh
 ```
 
-### What happens behind the scenes
-
-Both options above run `start.sh`, which works through these steps in order:
+### What `start.sh` does
 
 | Step | What it does | Skipped if... |
 |------|-------------|---------------|
 | 1 | Installs `sixfab-dx` (DeepX SDK) via APT | already installed |
 | 2 | Locates the Python venv at `/opt/sixfab-dx/venv` | always runs |
 | 3 | Installs Python deps from `requirements.txt` | always runs (fast) |
-| 4 | Downloads `models.tar.gz` and `videos.tar.gz` | directory not empty |
-| 5 | Launches the demo menu | — |
+| 4 | Launches the demo menu | — |
 
-On subsequent runs just call `./start.sh` from the project folder — it
-goes straight to the launcher since everything is already set up.
+`start.sh` does not download models or videos. If `resources/` is missing, run `./auto-install.sh` from the repository root first.
 
 > If you prefer to do things manually, see the [Manual Setup](#manual-setup) section below.
 
@@ -69,7 +58,7 @@ goes straight to the launcher since everything is already set up.
 
 The DeepX runtime is distributed through the Sixfab APT repository. The
 steps below add the repository, install the `sixfab-dx` package (which
-ships the runtime, Python wheels, and a pre-built virtual environment),
+pulls in the DEEPX runtime with its Python wheels, and creates a pre-built virtual environment),
 and verify that the NPU is detected.
 
 **Step 1 — Add the GPG key**
@@ -110,14 +99,12 @@ is ready to use.
 > **Option B — Install wheels into your own venv**
 >
 > ```bash
-> # Install numpy wheel first (required dependency)
-> # Then install the DX engine
-> # For python 3.13
-> pip install /opt/sixfab-dx/wheels/numpy-2.4.4-cp313-cp313-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl
-> pip install /opt/sixfab-dx/wheels/dx_engine-3.3.0-cp313-cp313-linux_aarch64.whl
-> # For python 3.11
-> pip install /opt/sixfab-dx/wheels/numpy-2.4.4-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl
-> pip install /opt/sixfab-dx/wheels/dx_engine-3.3.0-cp311-cp311-linux_aarch64.whl
+> # The dx_engine wheels ship with the DEEPX runtime (Python 3.8 to 3.14).
+> # pip installs numpy from PyPI as a dependency.
+> # For Python 3.13
+> pip install /usr/share/libdxrt-bin/python/dx_engine-3.5.0-cp313-cp313-manylinux2014_aarch64.manylinux_2_17_aarch64.whl
+> # For Python 3.11
+> pip install /usr/share/libdxrt-bin/python/dx_engine-3.5.0-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.whl
 > ```
 
 > All commands in this README assume the venv is activated.
@@ -126,7 +113,7 @@ is ready to use.
 <summary>Updating sixfab-dx</summary>
 
 ```bash
-sudo apt update && sudo apt upgrade sixfab-dx
+sudo apt update && sudo apt install sixfab-dx
 ```
 </details>
 
@@ -148,20 +135,23 @@ If you prefer not to use `start.sh`, follow these steps:
 
 ```bash
 # 1. Clone
-git clone https://github.com/sixfab/rpi5-python-examples.git
-cd rpi5-python-examples
+git clone https://github.com/sixfab/sixfab-dx-examples.git
+cd sixfab-dx-examples
 
 # 2. Activate the SDK venv
 source /opt/sixfab-dx/venv/bin/activate
 
 # 3. Install Python dependencies
-pip install -r requirements.txt
+pip install -r python_examples/requirements.txt
 
-# 4. Download models and videos
-chmod +x download.sh
-./download.sh
+# 4. Download models, videos and sample images into resources/
+mkdir -p resources
+for asset in images models videos; do
+  curl -fL "https://github.com/sixfab/sixfab-dx-examples/releases/download/v0.3/${asset}.tar.gz" | tar -xz -C resources
+done
 
 # 5. Launch
+cd python_examples
 python launcher.py
 ```
 
@@ -404,15 +394,14 @@ python object_detection/yolov8_demo.py --model models/YoloV8N.dxnn --conf 0.3
 - rpicam: run `rpicam-hello --list-cameras` to verify detection.
 - Try a different `webcam_index` (`0`, `1`, `2`...).
 
-**ImportError: No module named 'dxrt'**
+**ImportError: No module named 'dx_engine'**
 - The SDK venv is not activated.
 - Run: `source /opt/sixfab-dx/venv/bin/activate`
 - Or just use `./start.sh` which handles this automatically.
 
-**download.sh fails**
+**Models or videos are missing**
 - Verify internet connection.
-- Check that the GitHub release exists and has the assets attached.
-- Try running `./start.sh` again — it will retry the download.
+- Run `./auto-install.sh` from the repository root again. It downloads only the folders missing from `resources/`.
 
 **Low FPS / slow inference**
 - Switch to a PPU-enabled model variant (e.g. `yolov8l-ppu` instead of `yolov8l`).
@@ -422,9 +411,8 @@ python object_detection/yolov8_demo.py --model models/YoloV8N.dxnn --conf 0.3
 ## Project Structure
 
 ```
-deepx-demos/
-├── start.sh                 # One-shot setup and launch (start here)
-├── download.sh              # Download models and videos only
+python_examples/
+├── start.sh                 # Checks the SDK and opens the demo launcher
 ├── launcher.py              # Interactive TUI demo launcher
 ├── config.yml               # All demo settings (edit this)
 ├── config_loader.py         # YAML config parser
@@ -436,7 +424,12 @@ deepx-demos/
 ├── async_example/           # Async inference pattern
 ├── advanced/                # Zone, tracking, traffic, queue, multichannel demos
 ├── utils/                   # Shared utilities (tracker, visualizer, fps, etc.)
+├── retail-analytics/        # Retail people counter app
+└── pose-estimation/         # Pose estimation app
+
+../resources/                # Downloaded by auto-install.sh
 ├── models/                  # .dxnn compiled model files
+├── images/                  # Sample images
 └── videos/                  # Input video files
     └── 360p/                # 360p video files for multi-channel demo
 ```
