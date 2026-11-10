@@ -109,22 +109,22 @@ source /opt/sixfab-dx/venv/bin/activate
 > source ~/my-venv/bin/activate
 > ```
 >
-> Pre-built wheels for `dx_engine` and `numpy` are available under `/opt/sixfab-dx/wheels/`:
+> Pre-built `dx_engine` wheels for Python 3.8 to 3.14 ship with the DEEPX runtime (`libdxrt-bin`) under `/usr/share/libdxrt-bin/python/`:
 >
 > ```bash
-> ls /opt/sixfab-dx/wheels/
-> # dx_engine-3.3.0-cp311-cp311-linux_aarch64.whl
-> # dx_engine-3.3.0-cp313-cp313-linux_aarch64.whl
-> # numpy-2.4.4-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl
-> # numpy-2.4.4-cp313-cp313-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl
+> ls /usr/share/libdxrt-bin/python/
+> # dx_engine-3.5.0-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.whl
+> # dx_engine-3.5.0-cp313-cp313-manylinux2014_aarch64.manylinux_2_17_aarch64.whl
+> # ...
 > ```
 >
-> Install the wheels matching your Python version (`cp311` → Python 3.11, `cp313` → Python 3.13):
+> Install the wheel that matches your Python version (`cp311` → Python 3.11, `cp313` → Python 3.13). For Python 3.13:
 >
 > ```bash
-> pip install /opt/sixfab-dx/wheels/numpy-2.4.4-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl
-> pip install /opt/sixfab-dx/wheels/dx_engine-3.3.0-cp311-cp311-linux_aarch64.whl
+> pip install /usr/share/libdxrt-bin/python/dx_engine-3.5.0-cp313-cp313-manylinux2014_aarch64.manylinux_2_17_aarch64.whl
 > ```
+>
+> pip installs `numpy` from PyPI as a dependency, so this step needs an internet connection.
 >
 > To check your Python version: `python3 --version`
 
