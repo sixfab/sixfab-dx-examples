@@ -7,8 +7,9 @@ YAML. Each demo is a single-file executable you can read end-to-end.
 ## Prerequisites
 
 - Raspberry Pi 5 (or any Linux host with a DeepX-compatible NPU)
-- DeepX runtime `dx_rt` installed (provides `libdxrt.so` and headers under
-  `/usr/local/include/dxrt/`)
+- The `sixfab-dx` package installed from the Sixfab APT repository. It pulls in
+  the DeepX runtime (`libdxrt-bin`), which provides `libdxrt.so` and the headers
+  under `/usr/local/include/dxrt/`
 - OpenCV 4.x development headers
 - A C++17 compiler, CMake >= 3.14, `pkg-config`
 
@@ -16,13 +17,23 @@ YAML. Each demo is a single-file executable you can read end-to-end.
 
 ```bash
 git clone https://github.com/sixfab/sixfab-dx-examples.git
-cd sixfab-dx-examples/cpp_examples
-./setup.sh
-./build/object_detection/yolov8_demo
+cd sixfab-dx-examples
+./auto-install.sh
 ```
 
-`setup.sh` installs system packages, downloads the sample models/videos,
-configures CMake, and builds everything in `build/`.
+`auto-install.sh` downloads the sample models, videos and images into
+`resources/` at the repository root, then runs `cpp_examples/setup.sh`.
+`setup.sh` installs the system packages, configures CMake, and builds every
+demo in `cpp_examples/build/`. It does not download models or videos.
+
+Then open the demo menu, or run a demo directly from `cpp_examples/`:
+
+```bash
+bash cpp_examples/start.sh
+
+cd cpp_examples
+./build/object_detection/yolov8_demo
+```
 
 ## Demos
 
@@ -31,8 +42,9 @@ configures CMake, and builds everything in `build/`.
 | `object_detection/yolov8_demo`            | YOLOv8 object detection (PPU, anchor-free)     |
 | `object_detection/yolov5_demo`            | YOLOv5 object detection (PPU, anchor-based)    |
 
-_More demos land in later phases — pose, face, PPU, async, segmentation,
-classification, advanced (tracking / trespassing / smart-traffic)._
+`start.sh` lists every demo in the repository, including pose, face, PPU,
+async, segmentation, classification and advanced (tracking / trespassing /
+smart-traffic) demos.
 
 ## Running with a custom source
 
@@ -110,9 +122,10 @@ Each demo follows the same three-part skeleton — a `Model` class with a
 ```
 cpp_examples/
   CMakeLists.txt       -- top-level build: common lib + demo subdirs
-  setup.sh             -- one-shot install + build
+  setup.sh             -- installs build dependencies and builds every demo
+  start.sh             -- interactive demo menu
   configs/             -- per-demo JSON config files
   common/              -- shared library (sdk, ppu, input, vis, runner, ...)
   object_detection/    -- YOLO demos
-  models/  videos/     -- downloaded by setup.sh
+../resources/          -- models, videos and images, downloaded by auto-install.sh
 ```
